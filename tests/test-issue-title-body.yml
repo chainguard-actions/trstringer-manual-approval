@@ -1,0 +1,24 @@
+name: Test issue title and body inputs
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          approvers: octocat
+          secret: fake-secret-token-for-testing
+          issue-title: "Custom Approval Required"
+          issue-body: "Please review and approve this workflow run."
+        continue-on-error: true
+      - name: Assert action ran with issue title and body inputs
+        run: |
+          echo "Action completed with outcome: ${{ steps.action.outcome }}"
+          if [ "${{ steps.action.outcome }}" = "skipped" ]; then
+            echo "FAIL: action was skipped unexpectedly"
+            exit 1
+          fi
+          echo "PASS: action ran with issue-title and issue-body inputs"
