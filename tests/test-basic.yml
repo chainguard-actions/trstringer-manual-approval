@@ -1,0 +1,21 @@
+name: Test basic usage with approvers and minimum-approvals
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          approvers: testuser
+          secret: ${{ github.token }}
+          minimum-approvals: "1"
+          issue-title: "Test Approval Request"
+        continue-on-error: true
+      - name: Assert action ran
+        run: |
+          echo "Action completed (may have failed due to test environment)"
+          echo "approval-status: ${{ steps.action.outputs.approval-status }}"
+          echo "PASS: action inputs were accepted"

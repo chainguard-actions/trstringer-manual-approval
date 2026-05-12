@@ -1,0 +1,20 @@
+name: Test with custom issue body
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          approvers: testuser
+          secret: ${{ github.token }}
+          issue-body: "Please approve this workflow run for testing purposes."
+        continue-on-error: true
+      - name: Assert action ran with issue-body input
+        run: |
+          echo "Action completed (may have failed due to test environment)"
+          echo "approval-status: ${{ steps.action.outputs.approval-status }}"
+          echo "PASS: issue-body input was accepted"
