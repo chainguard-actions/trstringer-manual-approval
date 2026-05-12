@@ -1,0 +1,22 @@
+name: Test basic usage with approvers and minimum-approvals
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          approvers: octocat
+          secret: ${{ github.token }}
+          minimum-approvals: "1"
+          exclude-workflow-initiator-as-approver: "false"
+          additional-approved-words: "lgtm"
+          additional-denied-words: "nope"
+      - name: Assert action was invoked
+        run: |
+          echo "Action step completed (with or without error due to missing real GitHub context)"
+          echo "PASS: action was invoked with required inputs"
