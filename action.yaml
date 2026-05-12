@@ -1,0 +1,36 @@
+name: Manual Workflow Approval
+description: Pause a workflow and get user approval to continue
+branding:
+  icon: pause
+  color: yellow
+inputs:
+  approvers:
+    description: Required approvers
+    required: true
+  secret:
+    description: Secret
+    required: true
+  minimum-approvals:
+    description: Minimum number of approvals to progress workflow
+    required: false
+  timeout-minutes:
+    description: Force timeout of your workflow pause
+    required: false
+  issue-title:
+    description: The custom subtitle for the issue
+    required: false
+  issue-body:
+    description: The custom body for the issue
+    required: false
+  exclude-workflow-initiator-as-approver:
+    description: Whether or not to filter out the user who initiated the workflow as an approver if they are in the approvers list
+    default: false
+  additional-approved-words:
+    description: Comma separated list of words that can be used to approve beyond the defaults.
+    default: ''
+  additional-denied-words:
+    description: Comma separated list of words that can be used to deny beyond the defaults.
+    default: ''
+runs:
+  using: docker
+  image: docker://ghcr.io/trstringer/manual-approval@sha256:5c9f7dc4df19132760033592353b94c72142b1e0bc5fd445dd170c0066c566da # 1.9.1
