@@ -8,11 +8,11 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
-| v1.10.0 | [`v1.10.0`](https://github.com/chainguard-actions/manual-approval/tree/v1.10.0) | — |
-| v1.11.0 | [`v1.11.0`](https://github.com/chainguard-actions/manual-approval/tree/v1.11.0) | — |
-| v1.12.0 | [`v1.12.0`](https://github.com/chainguard-actions/manual-approval/tree/v1.12.0) | — |
-| v1.9.0 | [`v1.9.0`](https://github.com/chainguard-actions/manual-approval/tree/v1.9.0) | — |
-| v1.9.1 | [`v1.9.1`](https://github.com/chainguard-actions/manual-approval/tree/v1.9.1) | — |
+| v1.10.0 | [`v1.10.0`](https://github.com/chainguard-actions/trstringer--manual-approval/tree/v1.10.0) | — |
+| v1.11.0 | [`v1.11.0`](https://github.com/chainguard-actions/trstringer--manual-approval/tree/v1.11.0) | — |
+| v1.12.0 | [`v1.12.0`](https://github.com/chainguard-actions/trstringer--manual-approval/tree/v1.12.0) | — |
+| v1.9.0 | [`v1.9.0`](https://github.com/chainguard-actions/trstringer--manual-approval/tree/v1.9.0) | — |
+| v1.9.1 | [`v1.9.1`](https://github.com/chainguard-actions/trstringer--manual-approval/tree/v1.9.1) | — |
 
 ## Privacy
 
