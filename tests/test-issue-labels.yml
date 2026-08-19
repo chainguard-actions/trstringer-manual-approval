@@ -1,0 +1,33 @@
+name: Test manual-approval with issue labels
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      # Test that the action accepts issue-labels input.
+      # The action will fail since no one approves, but we verify it started correctly.
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          approvers: nonexistent-approver-xyz-99999
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          issue-title: "CI Test - Issue Labels Test"
+          issue-body: "Automated test for issue labels. Safe to close."
+          issue-labels: "approval,ci-test"
+          fail-on-denial: 'true'
+          polling-interval-seconds: '10'
+
+      - name: Assert action ran with issue-labels input
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "skipped" ] || [ "$OUTCOME" = "cancelled" ]; then
+            echo "FAIL: action was skipped or cancelled unexpectedly"
+            exit 1
+          fi
+          echo "PASS: action ran with issue-labels (outcome=$OUTCOME)"

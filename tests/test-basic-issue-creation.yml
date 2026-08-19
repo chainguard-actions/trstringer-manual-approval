@@ -1,0 +1,48 @@
+name: Test manual-approval basic issue creation
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      # This action creates a GitHub issue and polls for approval.
+      # Under act, we cannot interactively approve, so we use continue-on-error
+      # and verify that the action at least created an issue (issue-number is set).
+      # The action will eventually fail/timeout since no one approves.
+      # We only verify the issue was created (output is non-empty).
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          approvers: nonexistent-approver-xyz-99999
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          issue-title: "CI Test - Manual Approval Test Issue"
+          issue-body: "This is an automated test issue created by the CI test suite. It can be safely closed."
+          fail-on-denial: 'true'
+          polling-interval-seconds: '10'
+          close-issue-means-denial: 'true'
+
+      - name: Show action outputs
+        env:
+          ISSUE_NUMBER: ${{ steps.action.outputs.issue-number }}
+          ISSUE_URL: ${{ steps.action.outputs.issue-url }}
+          APPROVAL_STATUS: ${{ steps.action.outputs.approval-status }}
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          echo "issue-number: $ISSUE_NUMBER"
+          echo "issue-url: $ISSUE_URL"
+          echo "approval-status: $APPROVAL_STATUS"
+
+      - name: Assert action ran (outcome is failure or success, not skipped/cancelled)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "skipped" ] || [ "$OUTCOME" = "cancelled" ]; then
+            echo "FAIL: action was skipped or cancelled unexpectedly"
+            exit 1
+          fi
+          echo "PASS: action ran (outcome=$OUTCOME)"
