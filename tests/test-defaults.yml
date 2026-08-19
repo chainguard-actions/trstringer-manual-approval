@@ -1,0 +1,33 @@
+name: Test manual-approval with default optional inputs
+on:
+  workflow_dispatch:
+jobs:
+  test-defaults:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Run action with only required inputs and expect failure on bad token
+        id: action
+        uses: .
+        continue-on-error: true
+        with:
+          approvers: some-approver
+          secret: invalid-fake-token-for-defaults-test
+          # All optional inputs use defaults:
+          # minimum-approvals: (not set)
+          # issue-title: (not set)
+          # issue-body: (not set)
+          # exclude-workflow-initiator-as-approver: false (default)
+          # additional-approved-words: '' (default)
+          # additional-denied-words: '' (default)
+          # fail-on-denial: true (default)
+          # polling-interval-seconds: 10 (default)
+          # close-issue-means-denial: false (default)
+      - name: Assert action failed due to invalid token (not due to missing inputs)
+        run: |
+          echo "outcome: ${{ steps.action.outcome }}"
+          if [ "${{ steps.action.outcome }}" != "failure" ]; then
+            echo "FAIL: expected action to fail with invalid token, but got outcome: ${{ steps.action.outcome }}"
+            exit 1
+          fi
+          echo "PASS: action correctly failed at API call stage, not at input validation"

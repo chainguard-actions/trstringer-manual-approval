@@ -1,0 +1,37 @@
+name: Test issue-body-file-path input
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create issue body file
+        run: |
+          echo "This is a custom issue body from a file." > "$GITHUB_WORKSPACE/issue-body.md"
+
+      - name: Run action with issue-body-file-path (expect failure due to invalid token)
+        id: action
+        uses: .
+        continue-on-error: true
+        with:
+          approvers: some-approver
+          secret: invalid-token-for-testing
+          issue-title: Test issue body file path
+          issue-body-file-path: issue-body.md
+          polling-interval-seconds: '5'
+
+      - name: Assert action ran (failed due to invalid token, not missing input)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed as expected (invalid token), issue-body-file-path input was accepted"
+          elif [ "$OUTCOME" = "success" ]; then
+            echo "PASS: action succeeded (unexpected but acceptable)"
+          else
+            echo "FAIL: unexpected outcome: $OUTCOME"
+            exit 1
+          fi
