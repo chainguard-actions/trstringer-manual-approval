@@ -11,6 +11,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | v1.10.0 | [`v1.10.0`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.10.0) | — |
 | v1.11.0 | [`v1.11.0`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.11.0) | — |
 | v1.12.0 | [`v1.12.0`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.12.0) | — |
+| v1.13.0 | [`v1.13.0`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.13.0) | [`fc798f7`](https://github.com/trstringer/manual-approval/commit/fc798f7f1a16a3fe344efb8678a8201e9134e4d1) |
 | v1.13.1 | [`v1.13.1`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.13.1) | [`fa64294`](https://github.com/trstringer/manual-approval/commit/fa642940caf8412403569b28b2db4a1df08a83a3) |
 | v1.9.0 | [`v1.9.0`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.9.0) | — |
 | v1.9.1 | [`v1.9.1`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.9.1) | — |
