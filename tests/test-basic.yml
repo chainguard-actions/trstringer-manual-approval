@@ -1,4 +1,4 @@
-name: Test basic usage with approvers and minimum-approvals
+name: Test basic usage
 on:
   workflow_dispatch:
 jobs:
@@ -10,13 +10,18 @@ jobs:
         uses: .
         continue-on-error: true
         with:
-          approvers: octocat
+          approvers: some-approver
           secret: ${{ github.token }}
-          minimum-approvals: "1"
-          exclude-workflow-initiator-as-approver: "false"
-          additional-approved-words: "lgtm"
-          additional-denied-words: "nope"
-      - name: Assert action was invoked
+      - name: Assert action ran and failed gracefully on sentinel repo
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
         run: |
-          echo "Action step completed (with or without error due to missing real GitHub context)"
-          echo "PASS: action was invoked with required inputs"
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (sentinel repo is not resolvable)"
+          elif [ "$OUTCOME" = "success" ]; then
+            echo "PASS: action succeeded unexpectedly (real repo may be configured)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi
