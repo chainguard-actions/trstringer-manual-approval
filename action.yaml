@@ -33,4 +33,4 @@ inputs:
     default: ''
 runs:
   using: docker
-  image: docker://ghcr.io/trstringer/manual-approval@sha256:5c9f7dc4df19132760033592353b94c72142b1e0bc5fd445dd170c0066c566da # 1.9.1
+  image: docker://ghcr.io/trstringer/manual-approval:1.9.1@sha256:5c9f7dc4df19132760033592353b94c72142b1e0bc5fd445dd170c0066c566da

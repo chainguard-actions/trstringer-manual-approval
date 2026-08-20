@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test additional approved and denied words
 on:
   workflow_dispatch:
 jobs:
@@ -13,6 +13,8 @@ jobs:
           approvers: someuser
           secret: ${{ github.token }}
           timeout-minutes: 1
+          additional-approved-words: "lgtm,go ahead,ship it"
+          additional-denied-words: "nope,hold on,stop"
       - name: Assert action ran and failed gracefully on sentinel repo
         env:
           OUTCOME: ${{ steps.action.outcome }}

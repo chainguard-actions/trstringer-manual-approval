@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test minimum approvals with multiple approvers
 on:
   workflow_dispatch:
 jobs:
@@ -10,9 +10,10 @@ jobs:
         uses: .
         continue-on-error: true
         with:
-          approvers: someuser
+          approvers: user1,user2,user3
           secret: ${{ github.token }}
           timeout-minutes: 1
+          minimum-approvals: 2
       - name: Assert action ran and failed gracefully on sentinel repo
         env:
           OUTCOME: ${{ steps.action.outcome }}

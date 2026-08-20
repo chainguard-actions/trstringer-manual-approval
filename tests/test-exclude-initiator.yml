@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test exclude workflow initiator as approver
 on:
   workflow_dispatch:
 jobs:
@@ -10,9 +10,10 @@ jobs:
         uses: .
         continue-on-error: true
         with:
-          approvers: someuser
+          approvers: someuser,anotheruser
           secret: ${{ github.token }}
           timeout-minutes: 1
+          exclude-workflow-initiator-as-approver: true
       - name: Assert action ran and failed gracefully on sentinel repo
         env:
           OUTCOME: ${{ steps.action.outcome }}
