@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test issue-body-file-path input
 on:
   workflow_dispatch:
 jobs:
@@ -6,30 +6,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create issue body file
+        run: |
+          echo "This is a custom approval body from a file." > /tmp/issue-body.md
+
       - id: action
         uses: .
         continue-on-error: true
         with:
-          approvers: some-approver
-          secret: ${{ github.token }}
-      - name: Assert action ran and failed gracefully on sentinel repo
+          approvers: octocat
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          issue-title: "Approval needed (file body test)"
+          issue-body-file-path: /tmp/issue-body.md
+
+      - name: Assert action ran (succeeded or failed gracefully on sentinel repo)
         env:
           OUTCOME: ${{ steps.action.outcome }}
           ISSUE_NUMBER: ${{ steps.action.outputs.issue-number }}
           ISSUE_URL: ${{ steps.action.outputs.issue-url }}
-          APPROVAL_STATUS: ${{ steps.action.outputs.approval-status }}
         run: |
           echo "outcome: $OUTCOME"
           echo "issue-number: $ISSUE_NUMBER"
           echo "issue-url: $ISSUE_URL"
-          echo "approval-status: $APPROVAL_STATUS"
           if [ "$OUTCOME" = "success" ]; then
-            # If somehow it succeeded, validate outputs are set
-            if [ -z "$ISSUE_NUMBER" ] && [ -z "$APPROVAL_STATUS" ]; then
-              echo "FAIL: action succeeded but no outputs were set"
+            if [ -z "$ISSUE_NUMBER" ]; then
+              echo "FAIL: action succeeded but issue-number output is empty"
               exit 1
             fi
-            echo "PASS: action succeeded with outputs"
+            echo "PASS: action succeeded with issue-number=$ISSUE_NUMBER"
           elif [ "$OUTCOME" = "failure" ]; then
             echo "PASS: action failed gracefully (sentinel repo is not resolvable)"
           else

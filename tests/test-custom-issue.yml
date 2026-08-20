@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test custom issue title and body
 on:
   workflow_dispatch:
 jobs:
@@ -12,6 +12,9 @@ jobs:
         with:
           approvers: some-approver
           secret: ${{ github.token }}
+          issue-title: "Please approve this deployment"
+          issue-body: "This workflow requires manual approval before proceeding."
+          minimum-approvals: "1"
       - name: Assert action ran and failed gracefully on sentinel repo
         env:
           OUTCOME: ${{ steps.action.outcome }}
@@ -24,7 +27,6 @@ jobs:
           echo "issue-url: $ISSUE_URL"
           echo "approval-status: $APPROVAL_STATUS"
           if [ "$OUTCOME" = "success" ]; then
-            # If somehow it succeeded, validate outputs are set
             if [ -z "$ISSUE_NUMBER" ] && [ -z "$APPROVAL_STATUS" ]; then
               echo "FAIL: action succeeded but no outputs were set"
               exit 1

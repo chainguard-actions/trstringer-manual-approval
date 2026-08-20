@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test fail-on-denial false with additional words
 on:
   workflow_dispatch:
 jobs:
@@ -12,6 +12,10 @@ jobs:
         with:
           approvers: some-approver
           secret: ${{ github.token }}
+          fail-on-denial: "false"
+          additional-approved-words: "yes,go,proceed"
+          additional-denied-words: "no,stop,cancel"
+          exclude-workflow-initiator-as-approver: "true"
       - name: Assert action ran and failed gracefully on sentinel repo
         env:
           OUTCOME: ${{ steps.action.outcome }}
@@ -24,7 +28,6 @@ jobs:
           echo "issue-url: $ISSUE_URL"
           echo "approval-status: $APPROVAL_STATUS"
           if [ "$OUTCOME" = "success" ]; then
-            # If somehow it succeeded, validate outputs are set
             if [ -z "$ISSUE_NUMBER" ] && [ -z "$APPROVAL_STATUS" ]; then
               echo "FAIL: action succeeded but no outputs were set"
               exit 1
