@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test issue-body-file-path input
 on:
   workflow_dispatch:
 jobs:
@@ -6,31 +6,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create issue body file
+        run: |
+          mkdir -p /tmp/approval-test
+          echo "This workflow requires manual approval. Please review and approve." > /tmp/approval-test/issue-body.md
+
       - id: action
         uses: .
         continue-on-error: true
         with:
-          approvers: octocat
+          approvers: test-approver
           secret: ${{ github.token }}
-          minimum-approvals: '1'
-          polling-interval-seconds: '5'
-      - name: Assert action ran (outputs set, or failed gracefully on the sentinel repo)
+          issue-title: "Approval required for test workflow"
+          issue-body-file-path: /tmp/approval-test/issue-body.md
+          fail-on-denial: 'false'
+          polling-interval-seconds: '10'
+
+      - name: Assert action ran (issue created or failed gracefully on sentinel repo)
         env:
+          OUTCOME: ${{ steps.action.outcome }}
           ISSUE_NUMBER: ${{ steps.action.outputs.issue-number }}
           ISSUE_URL: ${{ steps.action.outputs.issue-url }}
-          APPROVAL_STATUS: ${{ steps.action.outputs.approval-status }}
-          OUTCOME: ${{ steps.action.outcome }}
         run: |
           echo "outcome: $OUTCOME"
           echo "issue-number: $ISSUE_NUMBER"
           echo "issue-url: $ISSUE_URL"
-          echo "approval-status: $APPROVAL_STATUS"
           if [ "$OUTCOME" = "success" ]; then
             if [ -z "$ISSUE_NUMBER" ]; then
               echo "FAIL: action succeeded but issue-number output is empty"
               exit 1
             fi
-            echo "PASS: got issue-number '$ISSUE_NUMBER'"
+            echo "PASS: issue created with number $ISSUE_NUMBER"
           elif [ "$OUTCOME" = "failure" ]; then
             echo "PASS: action failed gracefully (sentinel repo is not resolvable)"
           else

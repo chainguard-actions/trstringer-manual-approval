@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test exclude workflow initiator as approver
 on:
   workflow_dispatch:
 jobs:
@@ -10,8 +10,9 @@ jobs:
         uses: .
         continue-on-error: true
         with:
-          approvers: octocat
+          approvers: octocat,github-actions
           secret: ${{ github.token }}
+          exclude-workflow-initiator-as-approver: 'true'
           minimum-approvals: '1'
           polling-interval-seconds: '5'
       - name: Assert action ran (outputs set, or failed gracefully on the sentinel repo)
