@@ -13,7 +13,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | v1.12.0 | [`v1.12.0`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.12.0) | [`74d99df`](https://github.com/trstringer/manual-approval/commit/74d99dff7380e3e4b122d4ededcbca2b6ce59367) |
 | v1.13.0 | [`v1.13.0`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.13.0) | [`fc798f7`](https://github.com/trstringer/manual-approval/commit/fc798f7f1a16a3fe344efb8678a8201e9134e4d1) |
 | v1.13.1 | [`v1.13.1`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.13.1) | [`fa64294`](https://github.com/trstringer/manual-approval/commit/fa642940caf8412403569b28b2db4a1df08a83a3) |
-| v1.9.0 | [`v1.9.0`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.9.0) | — |
+| v1.9.0 | [`v1.9.0`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.9.0) | [`a824dad`](https://github.com/trstringer/manual-approval/commit/a824dad59ac64ac825ab8725599e483e24aa2815) |
 | v1.9.1 | [`v1.9.1`](https://github.com/chainguard-actions/trstringer-manual-approval/tree/v1.9.1) | [`662b3dd`](https://github.com/trstringer/manual-approval/commit/662b3ddbc7685f897992051e87e1b4b58c07dc03) |
 
 ## Privacy
