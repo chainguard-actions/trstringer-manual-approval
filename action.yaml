@@ -50,4 +50,4 @@ outputs:
     description: The status of the approval ("approved" or "denied")
 runs:
   using: docker
-  image: docker://ghcr.io/trstringer/manual-approval@sha256:3843f35b050dc97c4234f083836d899b12f98ce51a017be3c66690ffe5209d0d # 1.10.0
+  image: docker://ghcr.io/trstringer/manual-approval:1.10.0@sha256:3843f35b050dc97c4234f083836d899b12f98ce51a017be3c66690ffe5209d0d

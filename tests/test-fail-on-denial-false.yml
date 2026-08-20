@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test fail-on-denial false with custom words
 on:
   workflow_dispatch:
 jobs:
@@ -12,6 +12,10 @@ jobs:
         with:
           approvers: octocat
           secret: ${{ github.token }}
+          fail-on-denial: "false"
+          additional-approved-words: "lgtm,ship it"
+          additional-denied-words: "nope,reject"
+          exclude-workflow-initiator-as-approver: "false"
       - name: Assert action ran (outputs set, or failed gracefully on the sentinel repo)
         env:
           OUTCOME: ${{ steps.action.outcome }}
