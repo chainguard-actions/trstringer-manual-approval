@@ -1,7 +1,0 @@
-{
-  "owner": "trstringer",
-  "name": "manual-approval",
-  "visibility": "internal",
-  "description": "Pause a workflow and get user approval to continue",
-  "block_publish": false
-}
